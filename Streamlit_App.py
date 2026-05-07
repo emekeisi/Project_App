@@ -54,11 +54,18 @@ fig, ax = plt.subplots(figsize=(10,6))
 state_deaths.sort_values().plot(kind="bar", ax=ax, color="skyblue")
 st.pyplot(fig)
 
+st.markdown("🔎 *Insight:* A few states contribute disproportionately to total deaths," \
+"indicating regional hotspots that may require targeted interventions.")
+
+
 ## Q2
 st.subheader("2. What is the distribution of deaths across all incidents?")
 fig, ax = plt.subplots(figsize=(8,6))
 sns.histplot(df["Number of deaths"], bins=20, kde=True, color="red", ax=ax)
 st.pyplot(fig)
+
+st.markdown("🔎 *Insight:* Most incidents result in relatively few deaths," \
+" but a small number of catastrophic events drive the majority of fatalities.")
 
 
 ###Q3
@@ -75,19 +82,25 @@ sns.barplot(data=top10_states, x="State", y="Number of deaths")
 plt.title("Total Deaths per State (Top 10)")
 st.pyplot(plt)
 
-
+st.markdown("🔎 *Insight:* The top 10 states account for most deaths," \
+" suggesting that focusing resources on these states could significantly reduce overall fatalities.")
 
 ##Q4
 st.subheader("4. Average deaths per incident type")
 fig = px.box(df, x="Incident", y="Number of deaths", title="Average Deaths per Incident")
 st.plotly_chart(fig)
 
+st.markdown("🔎 *Insight:* Certain incident types consistently cause higher deaths," \
+" while others show wide variation, highlighting where prevention efforts should be prioritized.")
 
 ##Q5
 st.subheader("5. Top 10 deadliest incidents")
 top10 = df.nlargest(10, "Number of deaths")
 fig = px.bar(top10, x="Incident", y="Number of deaths", color="State", title="Top 10 Deadliest Incidents")
 st.plotly_chart(fig)
+
+st.markdown("🔎 *Insight:* These incidents stand out as extreme cases." \
+" Studying them could uncover lessons to prevent similar large-scale tragedies.")
 
 ##Q6
 st.subheader("6. Proportion of deaths by incident type (Top 10 Incidents)")
@@ -103,6 +116,9 @@ fig = px.pie(top10_incidents, names="Incident", values="Number of deaths",
              title="Proportion of Deaths by Top 10 Incidents")
 st.plotly_chart(fig)
 
+st.markdown("🔎 *Insight:* A few incident types dominate overall deaths." \
+" Targeting these could yield the biggest impact in reducing fatalities.")
+
 
 ##Q7
 st.subheader("7. Deaths per year across all states")
@@ -110,11 +126,16 @@ yearly_deaths = df.groupby("Year")["Number of deaths"].sum().reset_index()
 fig = px.line(yearly_deaths, x="Year", y="Number of deaths", title="Deaths per Year")
 st.plotly_chart(fig)
 
+st.markdown("🔎 *Insight:* The trend reveals whether conditions are worsening or improving." \
+" Spikes may correspond to specific crises or conflicts.")
+
 ###Q8
 st.subheader("8. States contributing most to total deaths")
 fig = px.treemap(df.groupby("State")["Number of deaths"].sum().reset_index(),
                  path=["State"], values="Number of deaths", title="Deaths Contribution by State")
 st.plotly_chart(fig)
+
+st.markdown("🔎 *Insight:* Larger blocks represent states with outsized impact, reinforcing the geographic concentration of fatalities.")
 
 
 ##Q9
@@ -125,3 +146,5 @@ sns.barplot(data=top10_avg, x="Incident", y="Number of deaths")
 plt.title("Average Deaths per Incident (Top 10)")
 plt.xticks(rotation=45)
 st.pyplot(plt)
+
+st.markdown("🔎 *Insight:* Incident types with high averages tend to be deadly whenever they occur. Preventing even a few of these could save many lives.")
